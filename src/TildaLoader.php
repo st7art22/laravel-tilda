@@ -76,6 +76,9 @@ class TildaLoader
                 return false;
             }
         }
+        if ($assetPath[strlen($assetPath) - 1] !== '/') {
+            $assetPath .= '/';
+        }
         return file_put_contents($assetPath . $localFilePath, $file);
     }
 
