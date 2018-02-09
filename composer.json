@@ -1,5 +1,5 @@
 {
-  "name": "KemerovoMan/BotVendor",
+  "name": "akaincore/laravel-tilda",
   "require": {
     "laravel/framework": "5.*",
     "guzzlehttp/guzzle": "~6.0"
