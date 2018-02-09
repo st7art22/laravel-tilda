@@ -87,8 +87,8 @@ class TildaClient
             'secretkey' => $this->config['secret_key']
         ];
         if ($params && is_array($params)) {
-            $customUrlParams = http_build_query(array_merge($params, $baseUrlParams));
-            return $baseUrlParams . $customUrlParams;
+            $queryString = http_build_query(array_merge($params, $baseUrlParams));
+            return '?' . $queryString;
         }
         return $baseUrlParams;
     }
