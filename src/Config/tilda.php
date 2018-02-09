@@ -8,7 +8,7 @@ return [
     ],
     'url' => [
         'public_key' => env('TILDA_API_PUBLIC', ''),
-        'private_key' => env('TILDA_API_SECRET', ''),
+        'secret_key' => env('TILDA_API_SECRET', ''),
         'api_url' => env('TILDA_API_URL', ''),
         'api_ver' => env('TILDA_API_VER', ''),
     ],

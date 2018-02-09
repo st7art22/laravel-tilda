@@ -82,9 +82,12 @@ class TildaClient
 
     private function buildUrlParams($params = false)
     {
-        $baseUrlParams = '?publickey=' . $this->config['public_key'] . '&secretkey=' . $this->config['secret_key'];
+        $baseUrlParams = [
+            'publickey' => $this->config['public_key'],
+            'secretkey' => $this->config['secret_key']
+        ];
         if ($params && is_array($params)) {
-            $customUrlParams = http_build_query($params);
+            $customUrlParams = http_build_query(array_merge($params, $baseUrlParams));
             return $baseUrlParams . $customUrlParams;
         }
         return $baseUrlParams;
