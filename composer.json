@@ -1,6 +1,7 @@
 {
   "name": "akaincore/laravel-tilda",
   "require": {
+    "php": "7.*",
     "laravel/framework": "5.*",
     "guzzlehttp/guzzle": "~6.0"
   },
