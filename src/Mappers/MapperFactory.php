@@ -14,7 +14,7 @@ class MapperFactory
 {
 
     /**
-     * @param string $uri
+     * @param string $apiMethod
      * @return MapperInterface $mapper
      * @throws MapperNotFoundException
      */
