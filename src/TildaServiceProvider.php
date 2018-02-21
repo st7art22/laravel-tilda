@@ -15,7 +15,7 @@ class TildaServiceProvider extends ServiceProvider
     {
 
         $this->app->singleton(TildaLoader::class, function () {
-            $client = new TildaClient(config('tilda.url'));
+            $client = new TildaApi;
             return new TildaLoader($client, config('tilda.path'));
         });
         $this->app->alias(TildaLoader::class, 'tilda');

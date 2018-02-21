@@ -2,27 +2,28 @@
 
 namespace IncOre\Tilda;
 
+use BadMethodCallException;
+use IncOre\Tilda\Exceptions\Loader\TildaLoaderInvalidConfigurationException;
+
 class TildaLoader
 {
-    private $client;
-    private $config;
+    protected $client;
 
-    public function __construct(TildaClient $client, array $config)
+    public function __construct(TildaApi $client)
     {
         $this->client = $client;
-        $this->config = $config;
     }
 
     public function page($pageId)
     {
-        $pageInfo = $this->client->pageExport($pageId);
+        $pageInfo = $this->client->getPageExport($pageId);
         if ($pageInfo) {
             $cssList = $pageInfo->css;
             $jsList = $pageInfo->js;
             $imgList = $pageInfo->images;
-            $css = $this->load($cssList, $this->config['css']);
-            $js = $this->load($jsList, $this->config['js']);
-            $img = $this->load($imgList, $this->config['img']);
+            $css = $this->load($cssList, config('tilda.path.css'));
+            $js = $this->load($jsList, config('tilda.path.js'));
+            $img = $this->load($imgList, config('tilda.path.img'));
             if ($css && $js && $img) {
                 return $pageInfo;
             }
@@ -38,15 +39,15 @@ class TildaLoader
         $cssList = $page->css;
         $jsList = $page->js;
         $files = [];
-        $cssPublicPos = strpos($this->config['css'], 'public');
-        $jsPublicPos = strpos($this->config['js'], 'public');
+        $cssPublicPos = strpos(config('tilda.path.css'), 'public');
+        $jsPublicPos = strpos(config('tilda.path.js'), 'public');
         if (!$cssPublicPos || !$jsPublicPos) {
             return null;
         }
         // string length of 'public'
         $publicLength = 6;
-        $cssPath = substr($this->config['css'], $cssPublicPos + $publicLength) . '/';
-        $jsPath = substr($this->config['js'], $jsPublicPos + $publicLength) . '/';
+        $cssPath = substr(config('tilda.path.css'), $cssPublicPos + $publicLength) . '/';
+        $jsPath = substr(config('tilda.path.js'), $jsPublicPos + $publicLength) . '/';
         foreach ($cssList as $file) {
             $files['css'][] = $cssPath . $file->to;
         }
@@ -56,7 +57,7 @@ class TildaLoader
         return (array)$files;
     }
 
-    private function load($fileList, $path)
+    protected function load($fileList, $path)
     {
         foreach ($fileList as $file) {
             if (!$loaded = file_get_contents($file->from)) {
@@ -69,7 +70,7 @@ class TildaLoader
         return true;
     }
 
-    private function store($file, $assetPath, $localFilePath)
+    protected function store($file, $assetPath, $localFilePath)
     {
         if (!$this->isDirExists($assetPath)) {
             if (!$this->createDir($assetPath)) {
@@ -82,13 +83,30 @@ class TildaLoader
         return file_put_contents($assetPath . $localFilePath, $file);
     }
 
-    private function isDirExists($path)
+    protected function isDirExists($path)
     {
         return file_exists($path) && is_dir($path);
     }
 
-    private function createDir($path)
+    protected function createDir($path)
     {
         return mkdir($path, 0775, true);
+    }
+
+    protected function validateConfig()
+    {
+        foreach (config('tilda.path') as $param) {
+            if (!$param) {
+                throw new TildaLoaderInvalidConfigurationException;
+            }
+        }
+    }
+
+    public function __call($method, $arguments)
+    {
+        if (!method_exists($this->client, $method)) {
+            throw new BadMethodCallException;
+        }
+        $this->client->$method($arguments);
     }
 }
