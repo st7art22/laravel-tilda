@@ -28,69 +28,78 @@ class TildaApi
     }
 
     /**
+     * @param int $projectId
      * @return Project $project
-     * @throws TildaApiException
      */
-    public function getProject($projectId)
+    public function getProject(int $projectId)
     {
         return $this->request('getproject', ['projectid' => $projectId]);
     }
 
     /**
+     * @param int $projectId
      * @return ExportedProject $project
-     * @throws TildaApiException
      */
-    public function getProjectExport($projectId)
+    public function getProjectExport(int $projectId)
     {
         return $this->request('getprojectexport', ['projectid' => $projectId]);
     }
 
     /**
+     * @param int $projectId
      * @return PagesListItem[] $pagesList
-     * @throws TildaApiException
      */
-    public function getPagesList($projectId)
+    public function getPagesList(int $projectId)
     {
         return $this->request('getpageslist', ['projectid' => $projectId]);
     }
 
     /**
+     * @param int $pageId
      * @return Page $page
-     * @throws TildaApiException
      */
-    public function getPage($pageId)
+    public function getPage(int $pageId)
     {
         return $this->request('getpage', ['pageid' => $pageId]);
     }
 
     /**
+     * @param int $pageId
      * @return Page $page
-     * @throws TildaApiException
      */
-    public function getPageFull($pageId)
+    public function getPageFull(int $pageId)
     {
         return $this->request('getpagefull', ['pageid' => $pageId]);
     }
 
     /**
+     * @param int $pageId
      * @return ExportedPage $page
-     * @throws TildaApiException
      */
-    public function getPageExport($pageId)
+    public function getPageExport(int $pageId)
     {
         return $this->request('getpageexport', ['pageid' => $pageId]);
     }
 
     /**
+     * @param int $pageId
      * @return ExportedPage $page
-     * @throws TildaApiException
      */
-    public function getPageFullExport($pageId)
+    public function getPageFullExport(int $pageId)
     {
         return $this->request('getpagefullexport', ['pageid' => $pageId]);
     }
 
-    protected function request($uri, $params = [])
+    /**
+     * @param string $uri
+     * @param array $params
+     * @return mixed $object
+     * @throws HttpClientExceptions
+     * @throws InvalidJsonException
+     * @throws TildaApiConnectionException
+     * @throws TildaApiErrorResponseException
+     */
+    protected function request(string $uri, array $params = [])
     {
         $this->validateConfig();
         $url = config('tilda.url.api_url') . '/' . config('tilda.url.api_ver') . '/' . $uri . $this->queryString($params);
