@@ -4,8 +4,9 @@ namespace IncOre\Tilda\Mappers;
 
 use IncOre\Tilda\Exceptions\Map\UnableToMapApiResponseException;
 use IncOre\Tilda\Objects\Asset;
+use JsonSerializable;
 
-class ObjectMapper
+class ObjectMapper implements JsonSerializable
 {
 
     protected $attributes = [];
@@ -35,6 +36,11 @@ class ObjectMapper
             }
         }
         return array_merge($attributes, $assets);
+    }
+
+    public function jsonSerialize()
+    {
+        return $this->attributes;
     }
 
 }
