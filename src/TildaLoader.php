@@ -42,7 +42,7 @@ class TildaLoader
      */
     public function assets(ExportedPage $page)
     {
-        if (!isset($page->css) || !isset($page->css)) {
+        if (!isset($page->css) || !isset($page->js)) {
             return null;
         }
         $cssList = $page->css;
@@ -56,7 +56,7 @@ class TildaLoader
         foreach ($jsList as $file) {
             $files['js'][] = $jsPath . '/' . $file->to;
         }
-        return (array)$files;
+        return $files;
     }
 
     protected function load($fileList, $path)
