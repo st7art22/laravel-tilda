@@ -26,9 +26,9 @@ class TildaLoader
             $cssList = $pageInfo->css;
             $jsList = $pageInfo->js;
             $imgList = $pageInfo->images;
-            $css = $this->load($cssList, config('tilda.path.css'));
-            $js = $this->load($jsList, config('tilda.path.js'));
-            $img = $this->load($imgList, config('tilda.path.img'));
+            $css = $this->load($cssList, config('tilda.path.css') . '/' . $pageId);
+            $js = $this->load($jsList, config('tilda.path.js') . '/' . $pageId);
+            $img = $this->load($imgList, config('tilda.path.img') . '/' . $pageId);
             if ($css && $js && $img) {
                 return $pageInfo;
             }
@@ -51,10 +51,10 @@ class TildaLoader
         $cssPath = substr(config('tilda.path.css'), strlen(public_path()));
         $jsPath = substr(config('tilda.path.js'), strlen(public_path()));
         foreach ($cssList as $file) {
-            $files['css'][] = $cssPath . '/' . $file->to;
+            $files['css'][] = $cssPath . '/' . $page->id . '/' . $file->to;
         }
         foreach ($jsList as $file) {
-            $files['js'][] = $jsPath . '/' . $file->to;
+            $files['js'][] = $jsPath . '/' . $page->id . '/' . $file->to;
         }
         return $files;
     }
