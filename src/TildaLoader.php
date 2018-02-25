@@ -116,6 +116,6 @@ class TildaLoader
         if (!method_exists($this->client, $method)) {
             throw new BadMethodCallException;
         }
-        call_user_func_array([$this->client, $method], $arguments);
+        return call_user_func_array([$this->client, $method], $arguments);
     }
 }
