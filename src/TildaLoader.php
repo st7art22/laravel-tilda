@@ -4,7 +4,7 @@ namespace IncOre\Tilda;
 
 use BadMethodCallException;
 use IncOre\Tilda\Exceptions\Loader\TildaLoaderInvalidConfigurationException;
-use IncOre\Tilda\Objects\Page\Page;
+use IncOre\Tilda\Objects\Page\ExportedPage;
 
 class TildaLoader
 {
@@ -37,10 +37,10 @@ class TildaLoader
     }
 
     /**
-     * @param Page $page
+     * @param ExportedPage $page
      * @return array
      */
-    public function assets(Page $page)
+    public function assets(ExportedPage $page)
     {
         if (!isset($page->css) || !isset($page->css)) {
             return null;
