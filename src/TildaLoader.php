@@ -105,7 +105,7 @@ class TildaLoader
     protected function validateConfig()
     {
         foreach (config('tilda.path') as $param) {
-            if (!$param) {
+            if (!$param || !is_dir($param)) {
                 throw new TildaLoaderInvalidConfigurationException;
             }
         }

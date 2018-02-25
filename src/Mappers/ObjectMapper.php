@@ -20,7 +20,7 @@ class ObjectMapper
     {
         $attributes = [];
         foreach ($this->attributes as $attribute) {
-            if (!array_key_exists($array, $attribute)) {
+            if (!array_key_exists($attribute, $array)) {
                 throw new UnableToMapApiResponseException("No attribute $attribute specified");
             }
             $attributes[] = $array[$attribute];
