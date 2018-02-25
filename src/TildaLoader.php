@@ -42,7 +42,7 @@ class TildaLoader
      */
     public function assets(ExportedPage $page)
     {
-        if (!$page->css || $page->js) {
+        if (!$page->css || !$page->js) {
             return null;
         }
         $cssList = $page->css;
