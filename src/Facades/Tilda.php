@@ -9,16 +9,16 @@ use IncOre\Tilda\TildaApi;
 /**
  * Class Tilda
  * @package IncOre\Tilda\Facades
- * @method TildaLoader page
- * @method TildaLoader assets
- * @method TildaApi getProjectsList
- * @method TildaApi getProject
- * @method TildaApi getProjectExport
- * @method TildaApi getPagesList
- * @method TildaApi getPage
- * @method TildaApi getPageFull
- * @method TildaApi getPageExport
- * @method TildaApi getPageFullExport
+ * @method static TildaLoader page
+ * @method static TildaLoader assets
+ * @method static TildaApi getProjectsList
+ * @method static TildaApi getProject
+ * @method static TildaApi getProjectExport
+ * @method static TildaApi getPagesList
+ * @method static TildaApi getPage
+ * @method static TildaApi getPageFull
+ * @method static TildaApi getPageExport
+ * @method static TildaApi getPageFullExport
  */
 class Tilda extends Facade
 {
