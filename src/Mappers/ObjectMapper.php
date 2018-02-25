@@ -23,7 +23,7 @@ class ObjectMapper
             if (!array_key_exists($attribute, $array)) {
                 throw new UnableToMapApiResponseException("No attribute $attribute specified");
             }
-            $attributes[] = $array[$attribute];
+            $attributes[$attribute] = $array[$attribute];
         }
         $assets = [];
         foreach ($this->assets as $assetType) {
