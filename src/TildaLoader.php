@@ -4,6 +4,7 @@ namespace IncOre\Tilda;
 
 use BadMethodCallException;
 use IncOre\Tilda\Exceptions\Loader\TildaLoaderInvalidConfigurationException;
+use IncOre\Tilda\Objects\Page\Page;
 
 class TildaLoader
 {
@@ -14,7 +15,11 @@ class TildaLoader
         $this->client = $client;
     }
 
-    public function page($pageId)
+    /**
+     * @param int $pageId
+     * @return Objects\Page\ExportedPage|null
+     */
+    public function page(int $pageId)
     {
         $pageInfo = $this->client->getPageExport($pageId);
         if ($pageInfo) {
@@ -31,7 +36,11 @@ class TildaLoader
         return null;
     }
 
-    public function assets($page)
+    /**
+     * @param Page $page
+     * @return array|null
+     */
+    public function assets(Page $page)
     {
         if (!isset($page->css) || !isset($page->css)) {
             return null;

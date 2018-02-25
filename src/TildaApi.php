@@ -19,87 +19,93 @@ use IncOre\Tilda\Objects\Project\ProjectsListItem;
 class TildaApi
 {
     /**
+     * @param bool $asJson
      * @return ProjectsListItem[] $projectsList
      * @throws TildaApiException
      */
-    public function getProjectsList()
+    public function getProjectsList($asJson = false)
     {
-        return $this->request('getprojectslist');
+        return $this->request('getprojectslist', [], $asJson);
     }
 
     /**
      * @param int $projectId
+     * @param bool $asJson
      * @return Project $project
+     * @throws TildaApiException
      */
-    public function getProject(int $projectId)
+    public function getProject(int $projectId, $asJson = false)
     {
-        return $this->request('getproject', ['projectid' => $projectId]);
+        return $this->request('getproject', ['projectid' => $projectId], $asJson);
     }
 
     /**
      * @param int $projectId
+     * @param bool $asJson
      * @return ExportedProject $project
+     * @throws TildaApiException
      */
-    public function getProjectExport(int $projectId)
+    public function getProjectExport(int $projectId, $asJson = false)
     {
-        return $this->request('getprojectexport', ['projectid' => $projectId]);
+        return $this->request('getprojectexport', ['projectid' => $projectId], $asJson);
     }
 
     /**
      * @param int $projectId
+     * @param bool $asJson
      * @return PagesListItem[] $pagesList
+     * @throws TildaApiException
      */
-    public function getPagesList(int $projectId)
+    public function getPagesList(int $projectId, $asJson = false)
     {
-        return $this->request('getpageslist', ['projectid' => $projectId]);
+        return $this->request('getpageslist', ['projectid' => $projectId], $asJson);
     }
 
     /**
      * @param int $pageId
+     * @param bool $asJson
      * @return Page $page
+     * @throws TildaApiException
      */
-    public function getPage(int $pageId)
+    public function getPage(int $pageId, $asJson = false)
     {
-        return $this->request('getpage', ['pageid' => $pageId]);
+        return $this->request('getpage', ['pageid' => $pageId], $asJson);
     }
 
     /**
      * @param int $pageId
+     * @param bool $asJson
      * @return Page $page
+     * @throws TildaApiException
      */
-    public function getPageFull(int $pageId)
+    public function getPageFull(int $pageId, $asJson = false)
     {
-        return $this->request('getpagefull', ['pageid' => $pageId]);
+        return $this->request('getpagefull', ['pageid' => $pageId], $asJson);
     }
 
     /**
      * @param int $pageId
+     * @param bool $asJson
      * @return ExportedPage $page
+     * @throws TildaApiException
      */
-    public function getPageExport(int $pageId)
+    public function getPageExport(int $pageId, $asJson = false)
     {
-        return $this->request('getpageexport', ['pageid' => $pageId]);
+        return $this->request('getpageexport', ['pageid' => $pageId], $asJson);
     }
 
     /**
      * @param int $pageId
+     * @param bool $asJson
      * @return ExportedPage $page
+     * @throws TildaApiException
      */
-    public function getPageFullExport(int $pageId)
+    public function getPageFullExport(int $pageId, $asJson = false)
     {
-        return $this->request('getpagefullexport', ['pageid' => $pageId]);
+        return $this->request('getpagefullexport', ['pageid' => $pageId], $asJson);
     }
 
-    /**
-     * @param string $uri
-     * @param array $params
-     * @return mixed $object
-     * @throws HttpClientExceptions
-     * @throws InvalidJsonException
-     * @throws TildaApiConnectionException
-     * @throws TildaApiErrorResponseException
-     */
-    protected function request(string $uri, array $params = [])
+    protected function request($uri, $params = [], $asJson = false)
     {
         $this->validateConfig();
         $url = config('tilda.url.api_url') . '/' . config('tilda.url.api_ver') . '/' . $uri . $this->queryString($params);
@@ -113,6 +119,9 @@ class TildaApi
             curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
             if (!($data = curl_exec($curl))) {
                 throw new TildaApiConnectionException(curl_error($curl));
+            }
+            if ($asJson) {
+                return $data;
             }
             if (($decoded = json_decode($data)) === null) {
                 throw new InvalidJsonException;
