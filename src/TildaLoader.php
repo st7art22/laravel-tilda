@@ -6,6 +6,10 @@ use BadMethodCallException;
 use IncOre\Tilda\Exceptions\Loader\TildaLoaderInvalidConfigurationException;
 use IncOre\Tilda\Objects\Page\ExportedPage;
 
+// TODO: exception coverage
+// TODO: phpdoc update
+// TODO: docs
+// TODO: test
 class TildaLoader
 {
     protected $client;
