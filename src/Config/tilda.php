@@ -3,8 +3,8 @@
 return [
     'path' => [
         'js' => env('TILDA_JS_PATH', ''),
-        'css' => env('TILDA_IMG_PATH', ''),
-        'img' => env('TILDA_CSS_PATH', ''),
+        'img' => env('TILDA_IMG_PATH', ''),
+        'css' => env('TILDA_CSS_PATH', ''),
     ],
     'url' => [
         'public_key' => env('TILDA_API_PUBLIC', ''),
