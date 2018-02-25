@@ -28,7 +28,7 @@ class ObjectMapper
         $assets = [];
         foreach ($this->assets as $assetType) {
             foreach ($array[$assetType] as $asset) {
-                if (!array_key_exists($array, $assetType)) {
+                if (!array_key_exists($assetType, $array)) {
                     throw new UnableToMapApiResponseException("No $assetType assets specified");
                 }
                 $assets[$assetType][] = new Asset($asset);

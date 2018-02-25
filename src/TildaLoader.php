@@ -38,7 +38,7 @@ class TildaLoader
 
     /**
      * @param Page $page
-     * @return array|null
+     * @return array
      */
     public function assets(Page $page)
     {
@@ -48,20 +48,13 @@ class TildaLoader
         $cssList = $page->css;
         $jsList = $page->js;
         $files = [];
-        $cssPublicPos = strpos(config('tilda.path.css'), 'public');
-        $jsPublicPos = strpos(config('tilda.path.js'), 'public');
-        if (!$cssPublicPos || !$jsPublicPos) {
-            return null;
-        }
-        // string length of 'public'
-        $publicLength = 6;
-        $cssPath = substr(config('tilda.path.css'), $cssPublicPos + $publicLength) . '/';
-        $jsPath = substr(config('tilda.path.js'), $jsPublicPos + $publicLength) . '/';
+        $cssPath = substr(config('tilda.path.css'), strlen(public_path()));
+        $jsPath = substr(config('tilda.path.js'), strlen(public_path()));
         foreach ($cssList as $file) {
-            $files['css'][] = $cssPath . $file->to;
+            $files['css'][] = $cssPath . '/' . $file->to;
         }
         foreach ($jsList as $file) {
-            $files['js'][] = $jsPath . $file->to;
+            $files['js'][] = $jsPath . '/' . $file->to;
         }
         return (array)$files;
     }
