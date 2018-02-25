@@ -16,13 +16,13 @@ use IncOre\Tilda\Objects\Project\ProjectsListItem;
  * @method static ExportedPage page(int $pageId)
  * @method static array assets(ExportedPage $page)
  * @method static ProjectsListItem[] getProjectsList
- * @method static Project getProject(int $projectId, bool $asJson)
- * @method static ExportedProject getProjectExport(int $projectId, bool $asJson)
- * @method static PagesListItem[] getPagesList(int $projectId, bool $asJson)
- * @method static Page getPage(int $pageId, bool $asJson)
- * @method static Page getPageFull(int $pageId, bool $asJson)
- * @method static ExportedPage getPageExport(int $pageId, bool $asJson)
- * @method static ExportedPage getPageFullExport(int $pageId, bool $asJson)
+ * @method static Project getProject(int $projectId, bool $asJson = false)
+ * @method static ExportedProject getProjectExport(int $projectId, bool $asJson = false)
+ * @method static PagesListItem[] getPagesList(int $projectId, bool $asJson = false)
+ * @method static Page getPage(int $pageId, bool $asJson = false)
+ * @method static Page getPageFull(int $pageId, bool $asJson = false)
+ * @method static ExportedPage getPageExport(int $pageId, bool $asJson = false)
+ * @method static ExportedPage getPageFullExport(int $pageId, bool $asJson = false)
  */
 class Tilda extends Facade
 {
