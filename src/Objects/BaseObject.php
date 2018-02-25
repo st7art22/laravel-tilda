@@ -4,8 +4,9 @@ namespace IncOre\Tilda\Objects;
 
 
 use BadMethodCallException;
+use JsonSerializable;
 
-class BaseObject
+class BaseObject implements JsonSerializable
 {
 
     protected $attributes;
@@ -40,5 +41,10 @@ class BaseObject
             return $this->$name($arguments);
         }
         throw new BadMethodCallException();
+    }
+
+    public function jsonSerialize()
+    {
+        return $this->attributes;
     }
 }
