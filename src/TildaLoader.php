@@ -3,10 +3,13 @@
 namespace IncOre\Tilda;
 
 use BadMethodCallException;
+use IncOre\Tilda\Exceptions\Loader\AssetLoadingException;
+use IncOre\Tilda\Exceptions\Loader\AssetStoringException;
+use IncOre\Tilda\Exceptions\Loader\PageHasNoAssetsException;
+use IncOre\Tilda\Exceptions\Loader\PageNotLoadedException;
 use IncOre\Tilda\Exceptions\Loader\TildaLoaderInvalidConfigurationException;
 use IncOre\Tilda\Objects\Page\ExportedPage;
 
-// TODO: exception coverage
 // TODO: phpdoc update
 // TODO: docs
 // TODO: test
@@ -22,32 +25,34 @@ class TildaLoader
     /**
      * @param int $pageId
      * @return Objects\Page\ExportedPage|null
+     * @throws PageNotLoadedException
+     * @throws AssetLoadingException
+     * @throws AssetStoringException
      */
     public function page(int $pageId)
     {
         $pageInfo = $this->client->getPageExport($pageId);
-        if ($pageInfo) {
-            $cssList = $pageInfo->css;
-            $jsList = $pageInfo->js;
-            $imgList = $pageInfo->images;
-            $css = $this->load($cssList, config('tilda.path.css') . '/' . $pageId);
-            $js = $this->load($jsList, config('tilda.path.js') . '/' . $pageId);
-            $img = $this->load($imgList, config('tilda.path.img') . '/' . $pageId);
-            if ($css && $js && $img) {
-                return $pageInfo;
-            }
+        if (!$pageInfo) {
+            throw new PageNotLoadedException;
         }
-        return null;
+        $cssList = $pageInfo->css;
+        $jsList = $pageInfo->js;
+        $imgList = $pageInfo->images;
+        $this->load($cssList, config('tilda.path.css') . '/' . $pageId);
+        $this->load($jsList, config('tilda.path.js') . '/' . $pageId);
+        $this->load($imgList, config('tilda.path.img') . '/' . $pageId);
+        return $pageInfo;
     }
 
     /**
      * @param ExportedPage $page
      * @return array
+     * @throws PageHasNoAssetsException
      */
     public function assets(ExportedPage $page)
     {
         if (!$page->css || !$page->js) {
-            return null;
+            throw new PageHasNoAssetsException;
         }
         $cssList = $page->css;
         $jsList = $page->js;
@@ -66,27 +71,27 @@ class TildaLoader
     protected function load($fileList, $path)
     {
         foreach ($fileList as $file) {
-            if (!$loaded = file_get_contents($file->from)) {
-                return false;
+            $loaded = file_get_contents($file->from);
+            if (!$loaded) {
+                throw new AssetLoadingException('Unable to load ' . $file->from);
             }
-            if (!$this->store($loaded, $path, $file->to)) {
-                return false;
-            }
+            $this->store($loaded, $path, $file->to);
         }
-        return true;
     }
 
     protected function store($file, $assetPath, $localFilePath)
     {
         if (!$this->isDirExists($assetPath)) {
             if (!$this->createDir($assetPath)) {
-                return false;
+                throw new AssetStoringException('Unable to create assets storage directory at ' . $assetPath);
             }
         }
         if ($assetPath[strlen($assetPath) - 1] !== '/') {
             $assetPath .= '/';
         }
-        return file_put_contents($assetPath . $localFilePath, $file);
+        if (!file_put_contents($assetPath . $localFilePath, $file)) {
+            throw new AssetStoringException('Unable to store asset to ' . $assetPath . $localFilePath);
+        }
     }
 
     protected function isDirExists($path)
