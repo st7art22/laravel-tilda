@@ -13,7 +13,6 @@ class ExportedProjectMapper extends ObjectMapper implements MapperInterface
 
     protected $attributes = [
         'id',
-        'projectid',
         'title',
         'descr',
         'customdomain',
