@@ -21,8 +21,6 @@ class ExportedProjectMapper extends ObjectMapper implements MapperInterface
         'export_jspath',
         'export_imgpath',
         'indexpageid',
-        'customcssfile',
-        'favicon',
         'page404id',
         'htaccess',
     ];
