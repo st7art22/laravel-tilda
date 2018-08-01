@@ -36,5 +36,4 @@ class ProjectMapper extends ObjectMapper implements MapperInterface
         }
         return new Project($this->mapAttributes($project['result']));
     }
-
 }
