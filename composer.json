@@ -1,5 +1,5 @@
 {
-  "name": "st7art22/laravel-tilda",
+  "name": "akaincore/laravel-tilda",
   "require": {
     "php": "7.*",
     "laravel/framework": "5.*"
