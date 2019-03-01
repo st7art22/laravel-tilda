@@ -36,13 +36,9 @@ class TildaLoader
         if (!$pageInfo) {
             throw new PageNotLoadedException;
         }
-        $cssList = $pageInfo->css;
-        $jsList = $pageInfo->js;
-        $imgList = $pageInfo->images;
-
-        $cssList = !empty($cssList) ? $cssList : [];
-        $jsList = !empty($jsList) ? $jsList : [];
-        $imgList = !empty($imgList) ? $imgList : [];
+        $cssList = $pageInfo->css ?? [];
+        $jsList = $pageInfo->js ?? [];
+        $imgList = $pageInfo->images ?? [];
         $this->load($cssList, config('tilda.path.css') . '/' . $pageId);
         $this->load($jsList, config('tilda.path.js') . '/' . $pageId);
         $this->load($imgList, config('tilda.path.img') . '/' . $pageId);
