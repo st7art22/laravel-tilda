@@ -1,5 +1,6 @@
 {
   "name": "st7art22/laravel-tilda",
+  "version": "1.0.2",
   "require": {
     "php": "7.*",
     "laravel/framework": "5.*"
