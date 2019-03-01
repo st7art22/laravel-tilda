@@ -73,7 +73,7 @@ class TildaLoader
     {
         foreach ($fileList as $file) {
             $loaded = file_get_contents($file->from);
-            if (!$loaded) {
+            if ($loaded === false) {
                 throw new AssetLoadingException('Unable to load ' . $file->from);
             }
             $this->store($loaded, $path, $file->to);
@@ -90,7 +90,7 @@ class TildaLoader
         if ($assetPath[strlen($assetPath) - 1] !== '/') {
             $assetPath .= '/';
         }
-        if (!file_put_contents($assetPath . $localFilePath, $file)) {
+        if (file_put_contents($assetPath . $localFilePath, $file) === false) {
             throw new AssetStoringException('Unable to store asset to ' . $assetPath . $localFilePath);
         }
     }
